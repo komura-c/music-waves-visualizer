@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>MusicWavesVisualizer</title>
+  <meta name="viewport" content="width=device-width,user-scalable=no,maximum-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <section id="heading">
+    <h1>Music Waves Visualizer</h1>
+    <p><strong>画像と音楽を読み込んで簡単に音声波形動画を作成するWebサイトです<br>実行状況はページ下に表示されます</strong></p>
+  </section>
+  <section id="controls">
+    <p>1.画像を選択(1024×512px推奨、それ以上は中央のみ表示)</p>
+    <label id="imageLabel" for="imageFile">クリックして画像ファイルを選択</label>
+    <input id="imageFile" type="file" accept="image/*" onchange="imageLoad();">
+    <p>2.音楽を選択</p>
+    <label id="audioLabel" for="audioFile">クリックして音楽ファイルを選択</label>
+    <input id="audioFile" type="file" accept="audio/*" onchange="audioLoad();">
+    <p>3.モード選択 :
+      <select id="mode">
+        <option>周波数モード(Frequency)</option>
+        <option>時間領域モード(TimeDomain)</option>
+        <option>周波数モード2(10khz以下)</option>
+      </select>
+    </p>
+    <p>4.スムース(Analyzerの動きの速さ) :
+      <input id="smoothing" type="number" min="0.1" max="0.9" value="0.8" step="0.1">
+    </p>
+    <p id="preview">5.プレビュー : <button id="playSound" disabled>スタート</button></p>
+    <p>6.書き出し：<button id="recordMovie" disabled>動画を書き出す</button></p>
+    <p>7.保存<a href="#" id="downloadLink">動画を保存</a></p>
+    <p id="msg"></p>
+  </section>
+  <canvas id="graph" width="1024" height="512"></canvas>
+  <script type="text/javascript" src="audio.js" defer></script>
+</body>
+
+</html>

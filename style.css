@@ -1,0 +1,157 @@
+*, *:before, *:after {
+  box-sizing: border-box
+}
+
+html, body {
+  color: #565656;
+  margin: 0;
+  padding: 0;
+}
+
+h1,h2,h3,h4,h5,h6,p,a {
+  padding: 0.2rem 0;
+  margin: 0;
+}
+
+a {
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+p {
+  margin: 1rem;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+button, select, input {
+  font-size: 1.2rem;
+}
+
+#heading {
+  padding-top: 2rem;
+}
+
+#controls {
+  text-align: center;
+}
+
+#msg {
+  text-align: center;
+  color: blue;
+  font-weight: bold;
+  margin: 1rem;
+}
+
+#graph {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-color: black;
+}
+
+#imageFile, #audioFile {
+  display: none;
+}
+
+#imageLabel, #audioLabel {
+  display: block;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.32);
+  cursor: pointer;
+  padding: 1rem;
+  margin: 0 auto;
+  width: 20rem;
+}
+
+#preview{
+  display: block;
+  margin: 0 auto;
+}
+
+#downloadLink {
+  display: none;
+  text-decoration: none;
+  border: 1px solid rgba(0, 0, 0, 0.32);
+  border-radius: 0;
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0.4rem 0.8rem;
+  width: 20rem;
+  margin: 0 auto;
+  transition: all 0.5s;
+}
+
+#downloadLink:focus {
+  outline: none;
+}
+
+#downloadLink:hover {
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#mode {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent url(./img/arrow.jpeg) no-repeat center right 8px/16px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.32);
+  border-radius: 0;
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.4rem 0.8rem;
+  width: 20rem;
+}
+
+#mode::-ms-expand {
+  display: none;
+}
+
+#mode:focus {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: none;
+  outline: none;
+}
+
+button {
+  -webkit-appearance: none;
+  background-color: rgba(0, 0, 0, 0.8);
+  background-image: none;
+  border: none;
+  border-radius: 0;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 0 1rem;
+  padding: 0.6rem 2rem;
+  text-decoration: none;
+  transition: all 0.5s;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+button::-moz-foucus-inner {
+  border: none;
+  padding: 0;
+}
+
+button[disabled] {
+  background:#DCDCDC;
+  cursor:not-allowed; /* 禁止カーソル */
+}
