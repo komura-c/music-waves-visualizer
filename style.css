@@ -50,6 +50,14 @@ button, select, input {
   padding-top: 2rem;
 }
 
+#logo {
+  font-size: 3rem;
+  letter-spacing: 0.3rem;
+  font-weight: bold;
+  color: #ff8800;
+  text-align: center;
+}
+
 #options {
   display: flex;
   width: 80%;
@@ -181,8 +189,27 @@ button, select, input {
 }
 
 @media (max-width: 768px) {
+  #logo {
+    font-size: 2rem;
+  }
+  #imageLabel, #audioLabel {
+    width: 13rem;
+  }
+  #mode {
+    width: 13rem;
+  }
   #graph {
-    height: 600px;
+    height: 570px;
+  }
+}
+
+@media (max-width: 576px) {
+  #options {
+    flex-direction: column;
+  }
+  .select__image, .select__music, .select__mode, .select__smoothing, .preview, .output {
+    width: 100%;
+    text-align: center;
   }
 }
 
