@@ -3,6 +3,7 @@
 }
 
 html, body {
+  font-family: sans-serif;
   color: #565656;
   margin: 0;
   padding: 0;
@@ -33,19 +34,48 @@ button, select, input {
   font-size: 1.2rem;
 }
 
+#msgBox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: 	#fefefe;
+  width: 100%;
+  height: 4rem;
+  background-color: #FFA500;
+  text-align: center;
+}
+
 #heading {
   padding-top: 2rem;
 }
 
-#controls {
+#options {
+  display: flex;
+  width: 80%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 2rem auto;
+  border: 1px solid rgba(0, 0, 0, 0.32);
+  border-radius: 5px;
+  box-shadow: 0 2px 12px 0px rgba(0,0,0,0.2);
+}
+
+.select__image, .select__music, .select__mode, .select__smoothing, .preview, .output {
+  width: 50%;
   text-align: center;
 }
 
-#msg {
+.download {
+  width: 100%;
   text-align: center;
-  color: blue;
-  font-weight: bold;
-  margin: 1rem;
+  margin-bottom: 2rem;
+}
+
+#msg {
+  display: inline-block;
+  font-size: 1.6rem;
 }
 
 #graph {
@@ -61,97 +91,108 @@ button, select, input {
 
 #imageLabel, #audioLabel {
   display: block;
-  background: #fff;
+  background: #e2e2e2;
   border: 1px solid rgba(0, 0, 0, 0.32);
   cursor: pointer;
-  padding: 1rem;
+  padding: 2rem;
   margin: 0 auto;
-  width: 20rem;
-}
-
-#preview{
-  display: block;
-  margin: 0 auto;
-}
-
-#downloadLink {
-  display: none;
-  text-decoration: none;
-  border: 1px solid rgba(0, 0, 0, 0.32);
-  border-radius: 0;
-  color: inherit;
-  cursor: pointer;
-  font-family: inherit;
-  padding: 0.4rem 0.8rem;
-  width: 20rem;
-  margin: 0 auto;
+  width: 18rem;
+  text-align: center;
   transition: all 0.5s;
 }
 
-#downloadLink:focus {
+#imageLabel:focus, #audioLabel:focus {
   outline: none;
 }
 
-#downloadLink:hover {
+#imageLabel:hover, #audioLabel:hover {
   outline: none;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
-#mode {
+.preview{
+  margin: 0 auto;
+}
+
+#mode, #smoothing {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  background: transparent url(./img/arrow.jpeg) no-repeat center right 8px/16px 16px;
+  background: #e2e2e2 url(./img/arrow.png) no-repeat center right 8px/20px 14px;
   border: 1px solid rgba(0, 0, 0, 0.32);
   border-radius: 0;
   color: inherit;
   cursor: pointer;
-  font-family: inherit;
   font-size: 1rem;
   padding: 0.4rem 0.8rem;
-  width: 20rem;
-}
-
-#mode::-ms-expand {
-  display: none;
-}
-
-#mode:focus {
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  box-shadow: none;
-  outline: none;
-}
-
-button {
-  -webkit-appearance: none;
-  background-color: rgba(0, 0, 0, 0.8);
-  background-image: none;
-  border: none;
-  border-radius: 0;
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  margin: 0 0 1rem;
-  padding: 0.6rem 2rem;
-  text-decoration: none;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
   transition: all 0.5s;
 }
 
-button:focus {
+#mode {
+  width: 17rem;
+}
+
+#smoothing {
+  width: 5rem; 
+}
+
+#mode:hover, #smoothing:hover {
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+#mode::-ms-expand, #smoothing::-ms-expand{
+  display: none;
+}
+
+#playSound, #recordMovie, #downloadLink {
+  display: inline-block;
+  -webkit-appearance: none;
+  background-color: rgba(0, 0, 0, 0.8);
+  background-image: none;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.6rem 2rem;
+  margin: 0 auto;
+  text-align: center;
+  transition: all 0.5s;
+}
+
+#playSound:focus, #recordMovie:focus #downloadLink:focus{
   outline: none;
 }
 
-button:hover {
-  outline: none;
-  background-color: rgba(0, 0, 0, 0.5);
+#playSound:hover, #recordMovie:hover #downloadLink:hover{
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
-button::-moz-foucus-inner {
+#playSound::-moz-foucus-inner , #recordMovie::-moz-foucus-inner {
   border: none;
   padding: 0;
 }
 
-button[disabled] {
+#playSound[disabled], #recordMovie[disabled], #downloadLink[disabled] {
   background:#DCDCDC;
   cursor:not-allowed; /* 禁止カーソル */
+}
+
+@media (max-width: 768px) {
+  #graph {
+    height: 600px;
+  }
+}
+
+/* animation */
+.fade {
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+ 
+.fade.show {
+  opacity: 1;
+  transform: none;
 }

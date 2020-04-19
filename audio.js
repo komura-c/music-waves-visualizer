@@ -11,8 +11,16 @@ window.AudioContext = (() => {
   return window.webkitAudioContext || window.AudioContext || window.mozAudioContext;
 })();
 
-let preview = document.querySelector("p#preview");
+let preview = document.querySelector("div.preview");
 let msg = document.querySelector("p#msg");
+
+const msgFlash = () => {
+  let msgBox = document.querySelector("div#msgBox");
+  msgBox.style.display = 'block';
+  setTimeout(() => { msgBox.classList.add('show'); }, 100);
+  setTimeout(() => { msgBox.classList.remove('show'); }, 3000);
+  setTimeout(() => { msgBox.style.display = 'none'; }, 3500);
+};
 
 // AudioContextを作成
 let audioCtx = new AudioContext();
@@ -36,8 +44,20 @@ const LoadSample = (ctx, url) => {
     ctx.decodeAudioData(arrayBuffer, (b) => { buffer = b; }, () => { });
     playSound.removeAttribute("disabled");
     recordMovie.removeAttribute("disabled");
-  }).catch((error) => { msg.innerHTML = error });
+  }).catch((error) => {
+    msg.textContent = error;
+    msgFlash();
+  });
 }
+
+// camvasの要素を取得
+let canvas = document.getElementById("graph")
+let ctx = canvas.getContext("2d");
+let imageCtx = new Image();
+let rawWidth = 0;
+let rawHeight = 0;
+let imageCtxWidth = 0;
+let imageCtxHeight = 0;
 
 let imageLabel = document.querySelector("label#imageLabel");
 let imageFile = null;
@@ -45,14 +65,31 @@ let imageData = null;
 
 const imageLoad = () => {
   imageFile = document.querySelector("input#imageFile").files[0];
-  imageLabel.innerHTML = imageFile.name;
+  imageLabel.textContent = imageFile.name;
   // readerのresultプロパティに、データURLとしてエンコードされたファイルデータを格納
   let reader = new FileReader();
-  reader.readAsDataURL(imageFile);
   reader.onload = () => {
     imageData = reader.result
-    msg.innerHTML = "画像を読み込みました";
+    msg.textContent = "画像を読み込みました";
+    msgFlash();
+    imageCtx.onload = () => {
+      rawWidth = imageCtx.width;
+      rawHeight = imageCtx.height;
+      if (rawWidth > canvas.width || rawHeight > canvas.height) {
+        imageCtxWidth = canvas.width;
+        imageCtxHeight = Math.round(rawHeight * (canvas.width / rawWidth));
+        do {
+          imageCtxWidth -= 1;
+          imageCtxHeight -= 1;
+        } while (imageCtxHeight > canvas.height);
+      } else {
+        imageCtxWidth = imageCtx.width;
+        imageCtxHeight = imageCtx.height;
+      }
+    }
+    imageCtx.src = imageData;
   }
+  reader.readAsDataURL(imageFile);
 };
 
 let audioLabel = document.querySelector("label#audioLabel");
@@ -61,40 +98,43 @@ let audioData = null;
 
 const audioLoad = () => {
   audioFile = document.querySelector("input#audioFile").files[0];
-  audioLabel.innerHTML = audioFile.name;
+  audioLabel.textContent = audioFile.name;
   // readerのresultプロパティに、データURLとしてエンコードされたファイルデータを格納
   let reader = new FileReader();
-  reader.readAsDataURL(audioFile);
   reader.onload = () => {
     audioData = reader.result
     LoadSample(audioCtx, audioData);
-    msg.innerHTML = "音楽を読み込みました";
+    msg.textContent = "音楽を読み込みました";
+    msgFlash();
   }
+  reader.readAsDataURL(audioFile);
 };
 
 let mode = 0;
-let timerId;
 
 // AnalyserNodeを作成
 let analyser = audioCtx.createAnalyser();
 analyser.fftSize = 2048;
 let bufferLength = analyser.frequencyBinCount; // analyser.fftSizeの半分になる(1024)
 
-// camvasの要素を取得
-let canvas = document.getElementById("graph")
-let ctx = canvas.getContext("2d");
+let posX = 0;
+let posY = 0;
 
 // canvasに描画するグラフの関数
 const DrawGraph = () => {
   ctx.fillStyle = "rgba(34, 34, 34, 1.0)";
   ctx.fillRect(0, 0, 1024, 512);
   ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
-  if (imageData != null) {
-    let imageCtx = new Image();
-    imageCtx.src = imageData;
-    let posX = (canvas.width - imageCtx.width) / 2; // imageのwidthをcenterにする
-    let posY = (canvas.height - imageCtx.height) / 2; // imageをcenterにする
-    ctx.drawImage(imageCtx, posX, posY);
+  if (imageData !== null) {
+    let marginWidth = canvas.width - imageCtxWidth
+    if (marginWidth !== 0) {
+      posX = marginWidth / 2; // imageのwidthをcenterにする
+    }
+    let marginHeight = canvas.height - imageCtxHeight
+    if (marginHeight !== 0) {
+      posY = marginHeight / 2; // imageのheightをcenterにする
+    }
+    ctx.drawImage(imageCtx, 0, 0, rawWidth, rawHeight, posX, posY, imageCtxWidth, imageCtxHeight);
   }
   let data = new Uint8Array(bufferLength);
   if (mode != 1) analyser.getByteFrequencyData(data); //Spectrum Data
@@ -121,7 +161,7 @@ const DrawGraph = () => {
   }
   requestAnimationFrame(DrawGraph);
 }
-timerId = requestAnimationFrame(DrawGraph);
+let timerId = requestAnimationFrame(DrawGraph);
 
 const Setup = () => {
   mode = document.getElementById("mode").selectedIndex;
@@ -131,7 +171,7 @@ Setup();
 
 playSound.addEventListener("click", (event) => {
   let label;
-  if (event.target.innerHTML == "ストップ") {
+  if (event.target.textContent == "ストップ") {
     audioBufferSrc.stop(0);
     cancelAnimationFrame(timerId);
     label = "スタート";
@@ -144,12 +184,13 @@ playSound.addEventListener("click", (event) => {
     audioBufferSrc.connect(streamDestination);
     audioBufferSrc.start(0);
     label = "ストップ";
+    scrollBottom();
   }
-  event.target.innerHTML = label;
+  event.target.textContent = label;
 });
 
 document.querySelector("select#mode").addEventListener("change", Setup);
-document.querySelector("input#smoothing").addEventListener("change", Setup);
+document.querySelector("select#smoothing").addEventListener("change", Setup);
 
 let recorder;
 
@@ -172,25 +213,75 @@ recordMovie.addEventListener("click", () => {
   let anchor = document.getElementById('downloadLink');
   //録画終了時に動画ファイルのダウンロードリンクを生成する処理
   recorder.addEventListener('stop', () => {
+    let blobUrl = null;
     const blob = new Blob(chunks, { type: 'video/webm' });
     blobUrl = window.URL.createObjectURL(blob);
     let movieName = Math.random().toString(36).slice(-8)
     anchor.download = 'movie_' + movieName + '.webm';
-    anchor.href = blobUrl;
-    anchor.style.display = 'block';
+    anchor.setAttribute("href", blobUrl);
+    anchor.removeAttribute("disabled");
   });
   //録画開始
-  msg.innerHTML = "動画を書き出しています...";
+  msg.textContent = "動画を書き出しています...";
+  msgFlash();
   recorder.start();
   let event = document.createEvent("MouseEvents"); // イベントオブジェクトを作成
   event.initEvent("click", false, true); // イベントの内容を設定
   playSound.dispatchEvent(event); // イベントを発火させる
   recordMovie.setAttribute("disabled", "disabled");
   preview.style.display = 'none';
+  if (anchor.hasAttribute("disabled") === false) {
+    anchor.setAttribute("disabled", "disabled");
+  }
   audioBufferSrc.onended = () => {
     recorder.stop();
-    msg.innerHTML = "動画の書き出しが完了しました";
+    msg.textContent = "動画の書き出しが完了しました";
+    msgFlash();
     preview.style.display = 'block';
     recordMovie.removeAttribute("disabled");
   };
 });
+
+/* スムーズスクロールアニメーション */
+let scrollBottom = () => {
+  let top = getElementAbsoluteTop("screen");
+  scrollScreen(top, 20);
+  return false;
+}
+
+function getElementAbsoluteTop(id) {
+  let target = document.getElementById(id);
+  let rect = target.getBoundingClientRect();
+  return rect.top;
+}
+
+function scrollScreen(desty, time) {
+  let top = Math.floor(document.documentElement.scrollTop || document.body.scrollTop);
+  let tick = desty / time;
+  let newy = top + tick;
+  document.documentElement.scrollTop = newy;
+  setTimeout(function () { scrollScreenInt(top, desty, newy, tick); }, 20);
+}
+
+function scrollScreenInt(starty, desty, newy, tick) {
+  let stop = true;
+  newy = newy + tick;
+  if (desty < 0) {
+    if (starty + desty < newy) {
+      stop = false;
+    } else {
+      newy = starty + desty;
+    }
+  } else {
+    if (newy < starty + desty) {
+      stop = false;
+    } else {
+      newy = starty + desty;
+    }
+  }
+
+  document.documentElement.scrollTop = newy;
+  if (stop == false) {
+    setTimeout(function () { scrollScreenInt(starty, desty, newy, tick); }, 20);
+  }
+}

@@ -9,33 +9,59 @@
 </head>
 
 <body>
-  <section id="heading">
+  <div id="msgBox" class="fade">
+    <p id="msg"></p>
+  </div>
+  <div id="heading">
     <h1>Music Waves Visualizer</h1>
     <p><strong>画像と音楽を読み込んで簡単に音声波形動画を作成するWebサイトです<br>実行状況はページ下に表示されます</strong></p>
-  </section>
-  <section id="controls">
-    <p>1.画像を選択(1024×512px推奨、それ以上は中央のみ表示)</p>
-    <label id="imageLabel" for="imageFile">クリックして画像ファイルを選択</label>
-    <input id="imageFile" type="file" accept="image/*" onchange="imageLoad();">
-    <p>2.音楽を選択</p>
-    <label id="audioLabel" for="audioFile">クリックして音楽ファイルを選択</label>
-    <input id="audioFile" type="file" accept="audio/*" onchange="audioLoad();">
-    <p>3.モード選択 :
+  </div>
+  <div id="options">
+    <div class="select__image">
+      <p>1.画像を選択</p>
+      <label id="imageLabel" for="imageFile">クリックして画像ファイルを選択</label>
+      <input id="imageFile" type="file" accept="image/*" onchange="imageLoad();">
+    </div>
+    <div class="select__music">
+      <p>2.音楽を選択</p>
+      <label id="audioLabel" for="audioFile">クリックして音楽ファイルを選択</label>
+      <input id="audioFile" type="file" accept="audio/*" onchange="audioLoad();">
+    </div>
+    <div class="select__mode">
+      <p>3.モード選択</p>
       <select id="mode">
         <option>周波数モード(Frequency)</option>
         <option>時間領域モード(TimeDomain)</option>
-        <option>周波数モード2(10khz以下)</option>
+        <option selected>周波数モード2(10khz以下)</option>
       </select>
-    </p>
-    <p>4.スムース(Analyzerの動きの速さ) :
-      <input id="smoothing" type="number" min="0.1" max="0.9" value="0.8" step="0.1">
-    </p>
-    <p id="preview">5.プレビュー : <button id="playSound" disabled>スタート</button></p>
-    <p>6.書き出し：<button id="recordMovie" disabled>動画を書き出す</button></p>
-    <p>7.保存<a href="#" id="downloadLink">動画を保存</a></p>
-    <p id="msg"></p>
-  </section>
-  <canvas id="graph" width="1024" height="512"></canvas>
+    </div>
+    <div class="select__smoothing">
+      <p>4.スムース(波形の速さ)</p>
+      <select id="smoothing">
+        <option>0.1</option>
+        <option>0.2</option>
+        <option>0.3</option>
+        <option>0.4</option>
+        <option>0.5</option>
+        <option>0.6</option>
+        <option>0.7</option>
+        <option selected>0.8</option>
+        <option>0.9</option>
+      </select>
+    </div>
+    <div class="preview">
+      <p>5.プレビュー</p><button id="playSound" disabled>スタート</button>
+    </div>
+    <div class="output">
+      <p>6.書き出し</p><button id="recordMovie" disabled>動画を書き出す</button>
+    </div>
+    <div class="download">
+      <p>7.保存</p><a id="downloadLink" disabled>動画を保存</a>
+    </div>
+  </div>
+  <div id="screen">
+    <canvas id="graph" width="1024" height="512"></canvas>
+  </div>
   <script type="text/javascript" src="audio.js" defer></script>
 </body>
 
