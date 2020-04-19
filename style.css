@@ -53,8 +53,9 @@ button, select, input {
 #logo {
   font-size: 3rem;
   letter-spacing: 0.3rem;
+  text-shadow: rgb(255, 123, 0) 1px 1px 1px;
   font-weight: bold;
-  color: #ff8800;
+  color: #ff6600;
   text-align: center;
 }
 
@@ -186,6 +187,12 @@ button, select, input {
 #playSound[disabled], #recordMovie[disabled], #downloadLink[disabled] {
   background:#DCDCDC;
   cursor:not-allowed; /* 禁止カーソル */
+}
+
+#footer {
+  padding: 1em;
+  margin-top: 1em;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
