@@ -1,15 +1,25 @@
-*, *:before, *:after {
-  box-sizing: border-box
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   font-family: sans-serif;
   color: #565656;
   margin: 0;
   padding: 0;
 }
 
-h1,h2,h3,h4,h5,h6,p,a {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
   padding: 0.2rem 0;
   margin: 0;
 }
@@ -30,7 +40,9 @@ p {
   text-align: center;
 }
 
-button, select, input {
+button,
+select,
+input {
   font-size: 1.2rem;
 }
 
@@ -39,10 +51,10 @@ button, select, input {
   position: fixed;
   top: 0;
   left: 0;
-  color: 	#fefefe;
+  color: #fefefe;
   width: 100%;
   height: 4rem;
-  background-color: #FFA500;
+  background-color: #ffa500;
   text-align: center;
 }
 
@@ -66,12 +78,16 @@ button, select, input {
   flex-wrap: wrap;
   justify-content: center;
   margin: 2rem auto;
-  border: 1px solid rgba(0, 0, 0, 0.32);
   border-radius: 5px;
-  box-shadow: 0 2px 12px 0px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 12px 0px rgba(0, 0, 0, 0.2);
 }
 
-.select__image, .select__music, .select__mode, .select__smoothing, .preview, .output {
+.select__image,
+.select__music,
+.select__mode,
+.select__smoothing,
+.preview,
+.output {
   width: 50%;
   text-align: center;
 }
@@ -94,11 +110,13 @@ button, select, input {
   background-color: black;
 }
 
-#imageFile, #audioFile {
+#imageFile,
+#audioFile {
   display: none;
 }
 
-#imageLabel, #audioLabel {
+#imageLabel,
+#audioLabel {
   display: block;
   background: #e2e2e2;
   border: 1px solid rgba(0, 0, 0, 0.32);
@@ -110,24 +128,27 @@ button, select, input {
   transition: all 0.5s;
 }
 
-#imageLabel:focus, #audioLabel:focus {
+#imageLabel:focus,
+#audioLabel:focus {
   outline: none;
 }
 
-#imageLabel:hover, #audioLabel:hover {
+#imageLabel:hover,
+#audioLabel:hover {
   outline: none;
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-.preview{
+.preview {
   margin: 0 auto;
 }
 
-#mode, #smoothing {
+#mode,
+#smoothing {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  background: #e2e2e2 url(./img/arrow.png) no-repeat center right 8px/20px 14px;
+  background: #e2e2e2 url("/arrow.png") no-repeat center right 8px/20px 14px;
   border: 1px solid rgba(0, 0, 0, 0.32);
   border-radius: 0;
   color: inherit;
@@ -145,19 +166,23 @@ button, select, input {
 }
 
 #smoothing {
-  width: 5rem; 
+  width: 5rem;
 }
 
-#mode:hover, #smoothing:hover {
+#mode:hover,
+#smoothing:hover {
   outline: none;
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-#mode::-ms-expand, #smoothing::-ms-expand{
+#mode::-ms-expand,
+#smoothing::-ms-expand {
   display: none;
 }
 
-#playSound, #recordMovie, #downloadLink {
+#playSound,
+#recordMovie,
+#downloadLink {
   display: inline-block;
   -webkit-appearance: none;
   background-color: rgba(0, 0, 0, 0.8);
@@ -171,22 +196,27 @@ button, select, input {
   transition: all 0.5s;
 }
 
-#playSound:focus, #recordMovie:focus #downloadLink:focus{
+#playSound:focus,
+#recordMovie:focus #downloadLink:focus {
   outline: none;
 }
 
-#playSound:hover, #recordMovie:hover #downloadLink:hover{
+#playSound:hover,
+#recordMovie:hover #downloadLink:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-#playSound::-moz-foucus-inner , #recordMovie::-moz-foucus-inner {
+#playSound::-moz-foucus-inner,
+#recordMovie::-moz-foucus-inner {
   border: none;
   padding: 0;
 }
 
-#playSound[disabled], #recordMovie[disabled], #downloadLink[disabled] {
-  background:#DCDCDC;
-  cursor:not-allowed; /* 禁止カーソル */
+#playSound[disabled],
+#recordMovie[disabled],
+#downloadLink[disabled] {
+  background: #dcdcdc;
+  cursor: not-allowed; /* 禁止カーソル */
 }
 
 #footer {
@@ -199,7 +229,8 @@ button, select, input {
   #logo {
     font-size: 2rem;
   }
-  #imageLabel, #audioLabel {
+  #imageLabel,
+  #audioLabel {
     width: 13rem;
   }
   #mode {
@@ -214,7 +245,12 @@ button, select, input {
   #options {
     flex-direction: column;
   }
-  .select__image, .select__music, .select__mode, .select__smoothing, .preview, .output {
+  .select__image,
+  .select__music,
+  .select__mode,
+  .select__smoothing,
+  .preview,
+  .output {
     width: 100%;
     text-align: center;
   }
@@ -225,7 +261,7 @@ button, select, input {
   opacity: 0;
   transition: all 0.5s ease;
 }
- 
+
 .fade.show {
   opacity: 1;
   transform: none;

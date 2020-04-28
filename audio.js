@@ -1,14 +1,18 @@
 // ブラウザによって異なる関数名を定義
 window.requestAnimationFrame = (() => {
-  return window.requestAnimationFrame ||
+  return (
+    window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     function (callback, element) {
       window.setTimeout(callback, 1000 / 60);
-    };
+    }
+  );
 })();
 window.AudioContext = (() => {
-  return window.webkitAudioContext || window.AudioContext || window.mozAudioContext;
+  return (
+    window.webkitAudioContext || window.AudioContext || window.mozAudioContext
+  );
 })();
 
 let preview = document.querySelector("div.preview");
@@ -16,10 +20,16 @@ let msg = document.querySelector("p#msg");
 
 const msgFlash = () => {
   let msgBox = document.querySelector("div#msgBox");
-  msgBox.style.display = 'block';
-  setTimeout(() => { msgBox.classList.add('show'); }, 100);
-  setTimeout(() => { msgBox.classList.remove('show'); }, 3000);
-  setTimeout(() => { msgBox.style.display = 'none'; }, 3500);
+  msgBox.style.display = "block";
+  setTimeout(() => {
+    msgBox.classList.add("show");
+  }, 100);
+  setTimeout(() => {
+    msgBox.classList.remove("show");
+  }, 3000);
+  setTimeout(() => {
+    msgBox.style.display = "none";
+  }, 3500);
 };
 
 // AudioContextを作成
@@ -38,20 +48,29 @@ let playSound = document.querySelector("button#playSound");
 let recordMovie = document.querySelector("button#recordMovie");
 
 const LoadSample = (ctx, url) => {
-  fetch(url).then(response => {
-    return response.arrayBuffer();
-  }).then(arrayBuffer => {
-    ctx.decodeAudioData(arrayBuffer, (b) => { buffer = b; }, () => { });
-    playSound.removeAttribute("disabled");
-    recordMovie.removeAttribute("disabled");
-  }).catch((error) => {
-    msg.textContent = error;
-    msgFlash();
-  });
-}
+  fetch(url)
+    .then((response) => {
+      return response.arrayBuffer();
+    })
+    .then((arrayBuffer) => {
+      ctx.decodeAudioData(
+        arrayBuffer,
+        (b) => {
+          buffer = b;
+        },
+        () => {}
+      );
+      playSound.removeAttribute("disabled");
+      recordMovie.removeAttribute("disabled");
+    })
+    .catch((error) => {
+      msg.textContent = error;
+      msgFlash();
+    });
+};
 
 // camvasの要素を取得
-let canvas = document.getElementById("graph")
+let canvas = document.getElementById("graph");
 let ctx = canvas.getContext("2d");
 let imageCtx = new Image();
 let rawWidth = 0;
@@ -69,7 +88,7 @@ const imageLoad = () => {
   // readerのresultプロパティに、データURLとしてエンコードされたファイルデータを格納
   let reader = new FileReader();
   reader.onload = () => {
-    imageData = reader.result
+    imageData = reader.result;
     msg.textContent = "画像を読み込みました";
     msgFlash();
     imageCtx.onload = () => {
@@ -86,9 +105,9 @@ const imageLoad = () => {
         imageCtxWidth = imageCtx.width;
         imageCtxHeight = imageCtx.height;
       }
-    }
+    };
     imageCtx.src = imageData;
-  }
+  };
   reader.readAsDataURL(imageFile);
 };
 
@@ -102,11 +121,11 @@ const audioLoad = () => {
   // readerのresultプロパティに、データURLとしてエンコードされたファイルデータを格納
   let reader = new FileReader();
   reader.onload = () => {
-    audioData = reader.result
+    audioData = reader.result;
     LoadSample(audioCtx, audioData);
     msg.textContent = "音楽を読み込みました";
     msgFlash();
-  }
+  };
   reader.readAsDataURL(audioFile);
 };
 
@@ -126,19 +145,29 @@ const DrawGraph = () => {
   ctx.fillRect(0, 0, 1024, 512);
   ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
   if (imageData !== null) {
-    let marginWidth = canvas.width - imageCtxWidth
+    let marginWidth = canvas.width - imageCtxWidth;
     if (marginWidth !== 0) {
       posX = marginWidth / 2; // imageのwidthをcenterにする
     }
-    let marginHeight = canvas.height - imageCtxHeight
+    let marginHeight = canvas.height - imageCtxHeight;
     if (marginHeight !== 0) {
       posY = marginHeight / 2; // imageのheightをcenterにする
     }
-    ctx.drawImage(imageCtx, 0, 0, rawWidth, rawHeight, posX, posY, imageCtxWidth, imageCtxHeight);
+    ctx.drawImage(
+      imageCtx,
+      0,
+      0,
+      rawWidth,
+      rawHeight,
+      posX,
+      posY,
+      imageCtxWidth,
+      imageCtxHeight
+    );
   }
   let data = new Uint8Array(bufferLength);
-  if (mode != 1) analyser.getByteFrequencyData(data); //Spectrum Data
-
+  if (mode != 1) analyser.getByteFrequencyData(data);
+  //Spectrum Data
   else analyser.getByteTimeDomainData(data); //Waveform Data
   if (mode == 1) ctx.beginPath();
   for (let i = 0; i < bufferLength; ++i) {
@@ -160,13 +189,15 @@ const DrawGraph = () => {
     ctx.stroke();
   }
   requestAnimationFrame(DrawGraph);
-}
+};
 let timerId = requestAnimationFrame(DrawGraph);
 
 const Setup = () => {
   mode = document.getElementById("mode").selectedIndex;
-  analyser.smoothingTimeConstant = parseFloat(document.getElementById("smoothing").value);
-}
+  analyser.smoothingTimeConstant = parseFloat(
+    document.getElementById("smoothing").value
+  );
+};
 Setup();
 
 playSound.addEventListener("click", (event) => {
@@ -206,18 +237,18 @@ recordMovie.addEventListener("click", () => {
   //ストリームからMediaRecorderを生成
   let recorder = new MediaRecorder(outputStream);
   let chunks = [];
-  recorder.addEventListener('dataavailable', (e) => {
+  recorder.addEventListener("dataavailable", (e) => {
     chunks.push(e.data);
   });
   //ダウンロード用のリンクを準備
-  let anchor = document.getElementById('downloadLink');
+  let anchor = document.getElementById("downloadLink");
   //録画終了時に動画ファイルのダウンロードリンクを生成する処理
-  recorder.addEventListener('stop', () => {
+  recorder.addEventListener("stop", () => {
     let blobUrl = null;
-    const blob = new Blob(chunks, { type: 'video/webm' });
+    const blob = new Blob(chunks, { type: "video/webm" });
     blobUrl = window.URL.createObjectURL(blob);
-    let movieName = Math.random().toString(36).slice(-8)
-    anchor.download = 'movie_' + movieName + '.webm';
+    let movieName = Math.random().toString(36).slice(-8);
+    anchor.download = "movie_" + movieName + ".webm";
     anchor.setAttribute("href", blobUrl);
     anchor.removeAttribute("disabled");
   });
@@ -229,7 +260,7 @@ recordMovie.addEventListener("click", () => {
   event.initEvent("click", false, true); // イベントの内容を設定
   playSound.dispatchEvent(event); // イベントを発火させる
   recordMovie.setAttribute("disabled", "disabled");
-  preview.style.display = 'none';
+  preview.style.display = "none";
   if (anchor.hasAttribute("disabled") === false) {
     anchor.setAttribute("disabled", "disabled");
   }
@@ -237,51 +268,69 @@ recordMovie.addEventListener("click", () => {
     recorder.stop();
     msg.textContent = "動画の書き出しが完了しました";
     msgFlash();
-    preview.style.display = 'block';
+    preview.style.display = "block";
     recordMovie.removeAttribute("disabled");
   };
 });
 
 /* スムーズスクロールアニメーション */
-let scrollBottom = () => {
-  let top = getElementAbsoluteTop("screen");
-  scrollScreen(top, 20);
-  return false;
-}
-
-function getElementAbsoluteTop(id) {
-  let target = document.getElementById(id);
-  let rect = target.getBoundingClientRect();
-  return rect.top;
-}
-
-function scrollScreen(desty, time) {
-  let top = Math.floor(document.documentElement.scrollTop || document.body.scrollTop);
-  let tick = desty / time;
-  let newy = top + tick;
-  document.documentElement.scrollTop = newy;
-  setTimeout(function () { scrollScreenInt(top, desty, newy, tick); }, 20);
-}
-
-function scrollScreenInt(starty, desty, newy, tick) {
-  let stop = true;
-  newy = newy + tick;
-  if (desty < 0) {
-    if (starty + desty < newy) {
-      stop = false;
-    } else {
-      newy = starty + desty;
-    }
-  } else {
-    if (newy < starty + desty) {
-      stop = false;
-    } else {
-      newy = starty + desty;
-    }
-  }
-
-  document.documentElement.scrollTop = newy;
-  if (stop == false) {
-    setTimeout(function () { scrollScreenInt(starty, desty, newy, tick); }, 20);
-  }
-}
+// イージング関数
+let Ease = {
+  easeInOut: (t) =>
+    t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+};
+// アニメーションの Duration の設定
+const duration = 500;
+window.addEventListener("DOMContentLoaded", () => {
+  // スムーススクロールのトリガーを取得
+  let smoothScrollTriggers = document.querySelectorAll('a[href^="#"]');
+  smoothScrollTriggers.forEach((smoothScrollTrigger) => {
+    // トリガーをクリックした時に実行
+    smoothScrollTrigger.addEventListener("click", (e) => {
+      // href属性の値を取得
+      let href = smoothScrollTrigger.getAttribute("href");
+      // 現在のスクロール位置を取得（クロスブラウザに対応）
+      let currentPostion =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      // スクロール先の要素を取得
+      let targetElement = document.getElementById(href.replace("#", ""));
+      // スクロール先の要素が存在する場合はスムーススクロールを実行
+      if (targetElement) {
+        // デフォルトのイベントアクションをキャンセル
+        e.preventDefault();
+        e.stopPropagation();
+        // スクロール先の要素の位置を取得
+        let targetPosition =
+          window.pageYOffset +
+          targetElement.getBoundingClientRect().top -
+          headerH; // headerと余白の分だけずらす
+        // スタート時点の時間を取得
+        let startTime = performance.now();
+        // アニメーションのループを定義
+        let loop = (nowTime) => {
+          // スタートからの経過時間を取得
+          let time = nowTime - startTime;
+          // duration を1とした場合の経過時間を計算
+          let normalizedTime = time / duration;
+          // duration に経過時間が達していない場合はアニメーションを実行
+          if (normalizedTime < 1) {
+            // 経過時間とイージングに応じてスクロール位置を変更
+            window.scrollTo(
+              0,
+              currentPostion +
+                (targetPosition - currentPostion) *
+                  Ease.easeInOut(normalizedTime)
+            );
+            // アニメーションを継続
+            requestAnimationFrame(loop);
+            // duration に経過時間が達したら、アニメーションを終了
+          } else {
+            window.scrollTo(0, targetPosition);
+          }
+        };
+        // アニメーションをスタート
+        requestAnimationFrame(loop);
+      }
+    });
+  });
+});
