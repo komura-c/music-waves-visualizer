@@ -6,9 +6,9 @@
     <meta property="og:type" content="website" />
     <meta
       property="og:url"
-      content="https://komura-c.github.io/MusicWavesVisualizer/"
+      content="https://komura-c.github.io/music-waves-visualizer/"
     />
-    <meta property="og:image" content="wavas.jpg" />
+    <meta property="og:image" content="./assets/waves.png" />
     <meta property="og:site_name" content="Music Waves Visualizer" />
     <meta property="og:description" content="Music Waves Visualizer" />
     <meta name="twitter:card" content="summary" />
@@ -18,90 +18,97 @@
       name="viewport"
       content="width=device-width,user-scalable=no,maximum-scale=1"
     />
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
 
   <body>
-    <div id="msgBox" class="fade">
-      <p id="msg"></p>
-    </div>
-    <div id="heading">
-      <h1 id="logo">Music Waves Visualizer</h1>
-      <p>
-        <strong
-          >画像と音楽を読み込んで簡単に音声波形動画を作成するWebサイトです。<br />※動画はwebm形式で出力されます。動画出力はiOS,
-          Android未対応です。</strong
-        >
-      </p>
-    </div>
-    <div id="options">
-      <div class="select__image">
-        <p>1.画像を選択</p>
-        <label id="imageLabel" for="imageFile"
-          >クリックして画像ファイルを選択</label
-        >
-        <input
-          id="imageFile"
-          type="file"
-          accept="image/*"
-          onchange="imageLoad();"
-        />
+    <div class="heading">
+      <h1 class="heading__title">Music Waves Visualizer</h1>
+      <div class="heading__text">
+        <p>画像と音楽を読み込んで簡単に音声波形動画を作成するWebページです。</p>
+        <p>※動画はwebm形式で出力されます。動画出力はiOS, Android未対応です。</p>
       </div>
-      <div class="select__music">
-        <p>2.音楽を選択</p>
-        <label id="audioLabel" for="audioFile"
-          >クリックして音楽ファイルを選択</label
-        >
-        <input
-          id="audioFile"
-          type="file"
-          accept="audio/*"
-          onchange="audioLoad();"
-        />
-      </div>
-      <div class="select__mode">
-        <p>3.モード選択</p>
-        <select id="mode">
-          <option>周波数モード(Frequency)</option>
-          <option>時間領域モード(TimeDomain)</option>
-          <option selected>周波数モード2(10khz以下)</option>
-        </select>
-      </div>
-      <div class="select__smoothing">
-        <p>4.スムース(波形の速さ)</p>
-        <select id="smoothing">
-          <option>0.1</option>
-          <option>0.2</option>
-          <option>0.3</option>
-          <option>0.4</option>
-          <option>0.5</option>
-          <option>0.6</option>
-          <option>0.7</option>
-          <option selected>0.8</option>
-          <option>0.9</option>
-        </select>
-      </div>
-      <div class="preview">
-        <p>5.プレビュー</p>
-        <button id="playSound" disabled>スタート</button>
-      </div>
-      <div class="output">
-        <p>6.書き出し</p>
-        <button id="recordMovie" disabled>動画を書き出す</button>
-      </div>
-      <div class="download">
-        <p>7.保存</p>
-        <a id="downloadLink" disabled>動画を保存</a>
-      </div>
-    </div>
-    <div id="screen">
-      <canvas id="graph" width="1024" height="512"></canvas>
     </div>
 
-    <div id="footer">
-      <h3>Copyright &copy; komura</h3>
+    <div class="menu">
+      <div class="menu__left">
+        <div class="menu__item">
+          <label for="imageFile">
+            <a class="waves-effect waves-light btn"
+              ><i class="material-icons left">photo_library</i>
+              画像ファイルを選ぶ</a
+            ></label
+          >
+          <div class="js-imageName"></div>
+          <input
+            id="imageFile"
+            class="input"
+            type="file"
+            accept="image/*"
+            onchange="imageLoad();"
+          />
+        </div>
+        <div class="menu__item">
+          <label for="audioFile"
+            ><a class="waves-effect waves-light btn"
+              ><i class="material-icons left">library_music</i>
+              音楽ファイルを選ぶ</a
+            ></label
+          >
+          <div class="js-audioName"></div>
+          <input
+            id="audioFile"
+            class="input"
+            type="file"
+            accept="audio/*"
+            onchange="audioLoad();"
+          />
+        </div>
+      </div>
+      <div class="menu__right">
+        <div class="menu__item">
+          <a id="playSound" class="waves-effect waves-light btn" disabled>
+            <i class="material-icons left">video_library</i>プレビュー</a
+          >
+        </div>
+        <div class="menu__item">
+          <a id="recordMovie" class="waves-effect waves-light btn" disabled>
+            <i class="material-icons left">fiber_manual_record</i>動画を録画
+          </a>
+        </div>
+        <div class="menu__item">
+          <a id="downloadLink" class="waves-effect waves-light btn" disabled>
+            <i class="material-icons left">file_download</i>動画を保存</a
+          >
+        </div>
+      </div>
+      <div class="input-field col s12">
+        <select id="mode">
+          <option value="0" selected>周波数バー</option>
+          <option value="1">折れ線</option>
+          <option value="2">円形</option>
+        </select>
+      </div>
     </div>
-    <script type="text/javascript" src="audio.js" defer></script>
+    <canvas id="canvas" class="canvas" width="1024" height="512"></canvas>
+
+    <h2 class="footer">&copy; 2020 komura</h2>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"
+      defer
+    ></script>
+    <script type="text/javascript" src="./js/variable.js" defer></script>
+    <script type="text/javascript" src="./js/load.js" defer></script>
+    <script type="text/javascript" src="./js/canvas.js" defer></script>
+    <script type="text/javascript" src="./js/record.js" defer></script>
   </body>
 </html>
