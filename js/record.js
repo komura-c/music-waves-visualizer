@@ -17,7 +17,7 @@ recordMovie.addEventListener("click", () => {
   //録画終了時に動画ファイルのダウンロードリンクを生成する処理
   recorder.addEventListener("stop", () => {
     let blobUrl = null;
-    const blob = new Blob(recordedBlobs, { type: "video/mp4" });
+    const blob = new Blob(recordedBlobs, { type: "video/webm" });
     blobUrl = window.URL.createObjectURL(blob);
     let movieName = Math.random().toString(36).slice(-8);
     anchor.download = "movie_" + movieName + ".webm";
