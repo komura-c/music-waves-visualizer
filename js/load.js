@@ -6,10 +6,6 @@ const imageLoad = () => {
   let reader = new FileReader();
   reader.onload = () => {
     imageData = reader.result;
-    M.toast({
-      html: "画像を読み込みました",
-      classes: "js-toast",
-    });
     imageCtx.onload = () => {
       rawWidth = imageCtx.width;
       rawHeight = imageCtx.height;
@@ -28,6 +24,10 @@ const imageLoad = () => {
     imageCtx.src = imageData;
   };
   reader.readAsDataURL(imageFile);
+  M.toast({
+    html: "画像を読み込みました",
+    classes: "js-toast",
+  });
 };
 
 // audioLoad
@@ -37,15 +37,9 @@ const LoadSample = (audioCtx, audioDataUrl) => {
       return response.arrayBuffer();
     })
     .then((arrayBuffer) => {
-      audioCtx.decodeAudioData(
-        arrayBuffer,
-        (b) => {
-          buffer = b;
-        },
-        () => {}
-      );
-      playSound.removeAttribute("disabled");
-      recordMovie.removeAttribute("disabled");
+      audioCtx.decodeAudioData(arrayBuffer).then((decodedData) => {
+        buffer = decodedData;
+      });
     })
     .catch((error) => {
       M.toast({ html: error, classes: "js-toast" });
@@ -60,6 +54,8 @@ const audioLoad = () => {
   reader.onload = () => {
     audioData = reader.result;
     LoadSample(audioCtx, audioData);
+    playSound.removeAttribute("disabled");
+    recordMovie.removeAttribute("disabled");
     M.toast({
       html: "音楽を読み込みました",
       classes: "js-toast",
