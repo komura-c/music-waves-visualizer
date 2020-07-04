@@ -1,4 +1,4 @@
-recordMovie.addEventListener("click", (recordEvent) => {
+recordMovie.addEventListener("click", () => {
   let canvasStream = canvas.captureStream();
   let audioStream = streamDestination.stream;
   let outputStream = new MediaStream();
@@ -8,16 +8,16 @@ recordMovie.addEventListener("click", (recordEvent) => {
     });
   });
   //ストリームからMediaRecorderを生成
-  let recorder = new MediaRecorder(outputStream);
-  let chunks = [];
+  const options = { mimeType: "video/webm;codecs=h264" };
+  let recorder = new MediaRecorder(outputStream, options);
+  let recordedBlobs = [];
   recorder.addEventListener("dataavailable", (e) => {
-    chunks.push(e.data);
+    recordedBlobs.push(e.data);
   });
-
   //録画終了時に動画ファイルのダウンロードリンクを生成する処理
   recorder.addEventListener("stop", () => {
     let blobUrl = null;
-    const blob = new Blob(chunks, { type: "video/webm" });
+    const blob = new Blob(recordedBlobs, { type: "video/mp4" });
     blobUrl = window.URL.createObjectURL(blob);
     let movieName = Math.random().toString(36).slice(-8);
     anchor.download = "movie_" + movieName + ".webm";
@@ -45,4 +45,10 @@ recordMovie.addEventListener("click", (recordEvent) => {
     });
     recordMovie.removeAttribute("disabled");
   };
+});
+
+// 離脱ガード
+window.addEventListener("beforeunload", (e) => {
+  e.preventDefault();
+  e.returnValue = "作成した動画は保存されませんが、よろしいですか？";
 });
