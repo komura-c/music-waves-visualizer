@@ -17,14 +17,15 @@ recordMovie.addEventListener("click", () => {
   //録画終了時に動画ファイルのダウンロードリンクを生成する処理
   recorder.addEventListener("stop", async() => {
     let blobUrl = null;
-    const blob = new Blob(recordedBlobs, { type: "video/mp4" });
+    const blob = new Blob(recordedBlobs, { type: "video/webm" });
     const movieName = Math.random().toString(36).slice(-8);
-    const outputName = "movie_" + movieName + ".mp4";
+    const webmName = "movie_" + movieName + ".webm";
+    const mp4Name = "movie_" + movieName + ".mp4";
 
-    const video = await generateMp4Video(blob, movieName, outputName)
+    const video = await generateMp4Video(blob, webmName, mp4Name)
     blobUrl = createVideoObjectURL([video], { type: 'video/mp4' });
 
-    anchor.download = outputName;
+    anchor.download = mp4Name;
     anchor.setAttribute("href", blobUrl);
     anchor.removeAttribute("disabled");
   });
@@ -51,13 +52,13 @@ recordMovie.addEventListener("click", () => {
   };
 });
 
-async function generateMp4Video(blob, movieName, outputName) {
+async function generateMp4Video(blob, webmName, mp4Name) {
   const { createFFmpeg, fetchFile } = FFmpeg
   const ffmpeg = createFFmpeg({ log: true })
   await ffmpeg.load()
-  await ffmpeg.FS('writeFile', movieName, await fetchFile(blob));
-  await ffmpeg.run('-i', movieName,  '-c', 'copy', outputName);
-  const data = ffmpeg.FS('readFile', outputName)
+  await ffmpeg.FS('writeFile', webmName, await fetchFile(blob));
+  await ffmpeg.run('-i', webmName, '-vcodec', 'copy', mp4Name);
+  const data = ffmpeg.FS('readFile', mp4Name)
   return data
 }
 
