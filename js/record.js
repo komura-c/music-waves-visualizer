@@ -15,12 +15,16 @@ recordMovie.addEventListener("click", () => {
     recordedBlobs.push(e.data);
   });
   //録画終了時に動画ファイルのダウンロードリンクを生成する処理
-  recorder.addEventListener("stop", () => {
+  recorder.addEventListener("stop", async() => {
     let blobUrl = null;
     const blob = new Blob(recordedBlobs, { type: "video/webm" });
-    blobUrl = window.URL.createObjectURL(blob);
-    let movieName = Math.random().toString(36).slice(-8);
-    anchor.download = "movie_" + movieName + ".webm";
+    const movieName = Math.random().toString(36).slice(-8);
+    const outputName = "movie_" + movieName + ".mp4";
+
+    const video = await generateMp4Video(blob, movieName, outputName)
+    blobUrl = createVideoObjectURL([video], { type: 'video/mp4' });
+
+    anchor.download = outputName;
     anchor.setAttribute("href", blobUrl);
     anchor.removeAttribute("disabled");
   });
@@ -46,6 +50,22 @@ recordMovie.addEventListener("click", () => {
     recordMovie.removeAttribute("disabled");
   };
 });
+
+async function generateMp4Video(blob, movieName, outputName) {
+  const { createFFmpeg, fetchFile } = FFmpeg
+  const ffmpeg = createFFmpeg({ log: true })
+  await ffmpeg.load()
+  await ffmpeg.FS('writeFile', movieName, await fetchFile(blob));
+  await ffmpeg.run('-i', movieName,  '-c', 'copy', outputName);
+  const data = ffmpeg.FS('readFile', outputName)
+  return data
+}
+
+function createVideoObjectURL(array, options) {
+  const blob = new Blob(array, options)
+  const objectUrl = URL.createObjectURL(blob)
+  return objectUrl
+}
 
 // 離脱ガード
 window.addEventListener("beforeunload", (e) => {
