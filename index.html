@@ -5,7 +5,7 @@
     <title>Music Waves Visualizer</title>
     <meta
       name="description"
-      content="画像と音楽を読み込んで音声波形動画を作成するWebページです。※iOS, Android未対応です。動画はwebm形式で出力されます。"
+      content="画像と音楽を読み込んで音声波形動画を作成するWebページです。※iOS, Android未対応です。動画はmp4形式で出力されます。"
     />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta
@@ -15,7 +15,7 @@
     <meta property="og:title" content="Music Waves Visualizer" />
     <meta
       property="og:description"
-      content="画像と音楽を読み込んで音声波形動画を作成するWebページです。※iOS, Android未対応です。動画はwebm形式で出力されます。"
+      content="画像と音楽を読み込んで音声波形動画を作成するWebページです。※iOS, Android未対応です。動画はmp4形式で出力されます。"
     />
     <meta property="og:type" content="website" />
     <meta
@@ -57,7 +57,7 @@
       <div class="heading__text">
         <p>画像と音楽を読み込んで音声波形動画を作成するWebページです。</p>
         <p>
-          ※iOS, Android未対応です。動画はwebm形式で出力されます。
+          ※iOS, Android未対応です。動画はmp4形式で出力されます。
         </p>
       </div>
     </div>
@@ -129,6 +129,7 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"
       defer
     ></script>
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.5/dist/ffmpeg.min.js" defer></script>
     <script type="text/javascript" src="./js/variable.js" defer></script>
     <script type="text/javascript" src="./js/load.js" defer></script>
     <script type="text/javascript" src="./js/canvas.js" defer></script>
