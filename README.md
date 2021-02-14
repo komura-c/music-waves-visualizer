@@ -6,6 +6,6 @@ MusicWavesVisualizer is a web page to create audio waveforms and movie by loadin
 Want to jump straight to a demo?
 The demo is here: https://music-waves-visualizer.vercel.app/
 
-## LICENSE
+# LICENSE
 
 [MIT](http://opensource.org/licenses/mit-license.php)
