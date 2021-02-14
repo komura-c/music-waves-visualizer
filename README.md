@@ -4,4 +4,8 @@ MusicWavesVisualizer is a web page to create audio waveforms and movie by loadin
 
 # Demo
 Want to jump straight to a demo?
-The demo is here: https://komura-c.github.io/music-waves-visualizer/
+The demo is here: https://music-waves-visualizer.vercel.app/
+
+# LICENSE
+
+[MIT](http://opensource.org/licenses/mit-license.php)
