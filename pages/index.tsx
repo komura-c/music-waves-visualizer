@@ -229,13 +229,22 @@ const Home: NextPage<Props> = ({ hostname }) => {
           content="画像と音楽を読み込んで音声波形動画を作成するWebページです。"
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={hostname} />
-        <meta property="og:image" content={hostname + "/waves.png"} />
+        <meta property="og:url" content={"https://" + hostname} />
+        <meta
+          property="og:image"
+          content={"https://" + hostname + "/waves.png"}
+        />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@komura_c" />
         <meta name="twitter:creator" content="@komura_c" />
-        <link rel="apple-touch-icon" href={hostname + "/waves.png"} />
-        <link rel="shortcut icon" href={hostname + "/favicon.ico"} />
+        <link
+          rel="apple-touch-icon"
+          href={"https://" + hostname + "/waves.png"}
+        />
+        <link
+          rel="shortcut icon"
+          href={"https://" + hostname + "/favicon.ico"}
+        />
       </Head>
 
       <main>
