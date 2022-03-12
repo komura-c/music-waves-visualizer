@@ -1,5 +1,5 @@
 import "./@types/window.d";
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 
@@ -15,7 +15,12 @@ import { CustomSnackbar } from "../components/CustomSnackbar";
 import { drawBars } from "../scripts/Canvas";
 import { generateMp4Video } from "../scripts/Ffmpeg";
 
-const Home: NextPage = () => {
+type Props = { hostname: string | null };
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => ({ props: { hostname: context.req.headers.host || null } });
+
+const Home: NextPage<Props> = ({ hostname }) => {
   if (typeof window !== "undefined") {
     // ブラウザによって異なる関数名を定義
     window.requestAnimationFrame =
@@ -224,25 +229,13 @@ const Home: NextPage = () => {
           content="画像と音楽を読み込んで音声波形動画を作成するWebページです。"
         />
         <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://music-waves-visualizer.vercel.app/"
-        />
-        <meta
-          property="og:image"
-          content="https://music-waves-visualizer.vercel.app/public/waves.png"
-        />
+        <meta property="og:url" content={hostname} />
+        <meta property="og:image" content={hostname + "/waves.png"} />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@komura_c" />
         <meta name="twitter:creator" content="@komura_c" />
-        <link
-          rel="apple-touch-icon"
-          href="https://music-waves-visualizer.vercel.app/public/waves.png"
-        />
-        <link
-          rel="shortcut icon"
-          href="https://music-waves-visualizer.vercel.app/public/favicon.ico"
-        />
+        <link rel="apple-touch-icon" href={hostname + "/waves.png"} />
+        <link rel="shortcut icon" href={hostname + "/favicon.ico"} />
       </Head>
 
       <main>
