@@ -7,7 +7,8 @@ export const drawBars = (
   const ctx = canvas.getContext("2d");
   ctx.fillStyle = "rgba(34, 34, 34, 1.0)";
   ctx.fillRect(0, 0, 1024, 512);
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
+
+  ctx.save();
 
   // drawImage
   if (imageCtx) {
@@ -67,21 +68,16 @@ export const drawBars = (
     analyser.getByteTimeDomainData(bufferData); //Waveform Data
     ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
     ctx.beginPath();
-    ctx.stroke();
     for (let i = 0; i < bufferLength; i++) {
       ctx.lineTo(i, 384 - bufferData[i] * 1);
     }
     ctx.stroke();
   } else if (mode === 2) {
     analyser.getByteFrequencyData(bufferData); //spectrum data
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const threshold = 0;
-    ctx.save();
-    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
 
     ctx.scale(0.5, 0.5);
     ctx.translate(canvas.width, canvas.height);
-    ctx.fillStyle = "#fff";
 
     const bass = Math.floor(bufferData[1]); //1Hz Freq
     const radius =
@@ -89,8 +85,8 @@ export const drawBars = (
         ? -(bass * 0.25 + 0.2 * canvas.width)
         : -(bass * 0.25 + 200);
 
-    const bar_length_factor = 1;
-
+    const threshold = 0;
+    const barLengthFactor = 1;
     for (let i = 0; i < 256; i++) {
       let value = bufferData[i];
       if (value >= threshold) {
@@ -98,13 +94,15 @@ export const drawBars = (
           0,
           radius,
           canvas.width <= 450 ? 2 : 3,
-          -value / bar_length_factor
+          -value / barLengthFactor
         );
         ctx.rotate(((180 / 128) * Math.PI) / 180);
       }
     }
-    ctx.restore();
   }
+
+  ctx.restore();
+
   requestAnimationFrame(function () {
     drawBars(canvas, imageCtx, mode, analyser);
   });
