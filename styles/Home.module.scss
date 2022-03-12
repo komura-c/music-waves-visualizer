@@ -1,44 +1,3 @@
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  font-family: sans-serif;
-  color: #565656;
-  margin: 0;
-}
-
-p {
-  margin: 0;
-}
-
-.input {
-  display: none;
-}
-
-.js-toast {
-  width: 568px;
-}
-
-.js-mode {
-  margin: 0 auto;
-  width: 120px;
-}
-
-.js-imageName,
-.js-audioName {
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-}
-
 .heading {
   border-bottom: 1px solid #dbdbdb;
   padding: 16px;
@@ -68,6 +27,11 @@ p {
   &__item {
     margin: 8px;
   }
+}
+
+.select {
+  margin: 8px auto;
+  width: 120px;
 }
 
 .canvas {
