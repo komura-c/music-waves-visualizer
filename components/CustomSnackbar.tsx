@@ -20,7 +20,7 @@ export const CustomSnackbar: FC<Props> = ({ isOpen, message, handleClose }) => {
     <Snackbar
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
       open={isOpen}
-      autoHideDuration={2000}
+      autoHideDuration={6000}
       onClose={handleClose}
     >
       <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>

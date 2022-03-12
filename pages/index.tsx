@@ -161,6 +161,9 @@ const Home: NextPage = () => {
       const webmName = movieName + ".webm";
       const mp4Name = movieName + ".mp4";
 
+      openSnackBar(
+        "動画をmp4に変換しています...（時間がかかります、ブラウザ検証ツールにログがでます）"
+      );
       const webmBlob = new Blob(recordedBlobs, { type: "video/webm" });
       const binaryData = new Uint8Array(await webmBlob.arrayBuffer());
       const video = await generateMp4Video(binaryData, webmName, mp4Name);
@@ -172,15 +175,15 @@ const Home: NextPage = () => {
       a.download = mp4Name;
       a.click();
       a.remove();
+      openSnackBar("動画の変換が完了しました！");
+      setRecordMovieDisabled(false);
     });
-    openSnackBar("動画を録画しています...");
     recorder.start();
+    openSnackBar("動画を録画しています...");
     onPlaySound();
     setRecordMovieDisabled(true);
     audioBufferSrcRef.current.onended = () => {
       recorder.stop();
-      openSnackBar("動画の録画が完了しました");
-      setRecordMovieDisabled(false);
     };
   };
 
@@ -208,7 +211,7 @@ const Home: NextPage = () => {
         <title>Music Waves Visualizer</title>
         <meta
           name="description"
-          content="画像と音楽を読み込んで音声波形動画を作成するWebページです。※iOS, Android未対応です。動画はmp4形式で出力されます。"
+          content="画像と音楽を読み込んで音声波形動画を作成するWebページです。"
         />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <meta
@@ -218,7 +221,7 @@ const Home: NextPage = () => {
         <meta property="og:title" content="Music Waves Visualizer" />
         <meta
           property="og:description"
-          content="画像と音楽を読み込んで音声波形動画を作成するWebページです。※iOS, Android未対応です。動画はmp4形式で出力されます。"
+          content="画像と音楽を読み込んで音声波形動画を作成するWebページです。"
         />
         <meta property="og:type" content="website" />
         <meta
@@ -247,7 +250,7 @@ const Home: NextPage = () => {
           <h1 className={styles.heading__title}>Music Waves Visualizer</h1>
           <div className={styles.heading__text}>
             <p>画像と音楽を読み込んで音声波形動画を作成するWebページです。</p>
-            <p>※iOS, Android未対応です。動画はmp4形式で出力されます。</p>
+            <p>※iOS, Android未確認です。動画はmp4形式で出力されます。</p>
           </div>
         </div>
 
