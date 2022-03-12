@@ -331,7 +331,7 @@ const Home: NextPage = () => {
         handleClose={handleClose}
       ></CustomSnackbar>
 
-      <footer className={styles.footer}>&copy; 2020 komura</footer>
+      <footer className={styles.footer}>&copy; 2021 komura-c</footer>
     </>
   );
 };
