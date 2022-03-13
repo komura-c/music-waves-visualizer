@@ -226,12 +226,12 @@ const Home: NextPage = () => {
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={baseURL} />
-        <meta property="og:image" content={baseURL + "/waves.png"} />
+        <meta property="og:image" content={baseURL + "waves.png"} />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@komura_c" />
         <meta name="twitter:creator" content="@komura_c" />
-        <link rel="apple-touch-icon" href={baseURL + "/waves.png"} />
-        <link rel="shortcut icon" href={baseURL + "/favicon.ico"} />
+        <link rel="apple-touch-icon" href={baseURL + "waves.png"} />
+        <link rel="shortcut icon" href={baseURL + "favicon.ico"} />
       </Head>
 
       <main>
