@@ -87,7 +87,7 @@ const Home: NextPage = () => {
       return;
     }
     reqIdRef.current = requestAnimationFrame(function () {
-      drawBars(canvasRef.current, imageCtx, mode, analyserRef.current);
+      return drawBars(canvasRef.current, imageCtx, mode, analyserRef.current);
     });
     return () => cancelAnimationFrame(reqIdRef.current);
   }, [imageCtx, mode]);

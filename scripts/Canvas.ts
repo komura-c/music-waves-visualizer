@@ -45,10 +45,9 @@ export const drawBars = (
   }
 
   if (!analyser) {
-    requestAnimationFrame(function () {
+    return requestAnimationFrame(function () {
       drawBars(canvas, imageCtx, mode, analyser);
     });
-    return;
   }
 
   const bufferLength = analyser.frequencyBinCount; // analyser.fftSizeの半分になる(1024)
@@ -103,7 +102,7 @@ export const drawBars = (
 
   ctx.restore();
 
-  requestAnimationFrame(function () {
+  return requestAnimationFrame(function () {
     drawBars(canvas, imageCtx, mode, analyser);
   });
 };
