@@ -14,8 +14,13 @@ import { CustomSnackbar } from "../components/CustomSnackbar";
 import { drawBars } from "../lib/Canvas";
 import { generateMp4Video } from "../lib/Ffmpeg";
 
+const hasWindow = () => {
+  return typeof window === "object";
+};
+
 const Home: NextPage = () => {
-  if (typeof window !== "undefined") {
+  // クライアントサイドのみ
+  if (hasWindow()) {
     // ブラウザによって異なる関数名を定義
     window.requestAnimationFrame =
       window.requestAnimationFrame ||
