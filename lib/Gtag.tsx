@@ -20,7 +20,6 @@ export const usePageView = () => {
     }
 
     const handleRouteChange = (path: string) => {
-      console.log(path);
       pageview(path);
     };
 
