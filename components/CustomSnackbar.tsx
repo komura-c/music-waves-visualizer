@@ -15,17 +15,15 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export const CustomSnackbar: FC<Props> = ({ isOpen, message, handleClose }) => {
-  return (
-    <Snackbar
-      anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      open={isOpen}
-      autoHideDuration={6000}
-      onClose={handleClose}
-    >
-      <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-        {message}
-      </Alert>
-    </Snackbar>
-  );
-};
+export const CustomSnackbar: FC<Props> = ({ isOpen, message, handleClose }) => (
+  <Snackbar
+    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+    open={isOpen}
+    autoHideDuration={6000}
+    onClose={handleClose}
+  >
+    <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+      {message}
+    </Alert>
+  </Snackbar>
+);

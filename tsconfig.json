@@ -13,11 +13,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
-    "types": ["@emotion/react/types/css-prop"]
-    // "lib": ["DOM", "ES2015"],
-    // "experimentalDecorators": true,
-    // "jsx": "react-jsx",
+    "incremental": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
