@@ -1,6 +1,5 @@
 import "./@types/window.d";
 import type { NextPage } from "next";
-import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 
 import { useState, useRef, useEffect } from "react";
@@ -12,8 +11,8 @@ import {
   VideoLibrary,
 } from "@mui/icons-material";
 import { CustomSnackbar } from "../components/CustomSnackbar";
-import { drawBars } from "../scripts/Canvas";
-import { generateMp4Video } from "../scripts/Ffmpeg";
+import { drawBars } from "../lib/Canvas";
+import { generateMp4Video } from "../lib/Ffmpeg";
 
 const Home: NextPage = () => {
   if (typeof window !== "undefined") {
@@ -205,35 +204,8 @@ const Home: NextPage = () => {
     setSnackBarProps({ isOpen: false, message: snackBarProps.message });
   };
 
-  const baseURL = "https://music-waves-visualizer.vercel.app/";
   return (
     <>
-      <Head>
-        <title>Music Waves Visualizer</title>
-        <meta
-          name="description"
-          content="画像と音楽を読み込んで音声波形動画を作成するWebページです。"
-        />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta
-          name="format-detection"
-          content="telephone=no, email=no, address=no"
-        />
-        <meta property="og:title" content="Music Waves Visualizer" />
-        <meta
-          property="og:description"
-          content="画像と音楽を読み込んで音声波形動画を作成するWebページです。"
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={baseURL} />
-        <meta property="og:image" content={baseURL + "waves.png"} />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:site" content="@komura_c" />
-        <meta name="twitter:creator" content="@komura_c" />
-        <link rel="apple-touch-icon" href={baseURL + "waves.png"} />
-        <link rel="shortcut icon" href={baseURL + "favicon.ico"} />
-      </Head>
-
       <main>
         <div className={styles.heading}>
           <h1 className={styles.heading__title}>Music Waves Visualizer</h1>
