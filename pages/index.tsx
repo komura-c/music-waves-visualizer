@@ -297,7 +297,7 @@ const Home: NextPage = () => {
         handleClose={handleClose}
       ></CustomSnackbar>
 
-      <footer className={styles.footer}>&copy; komura-c</footer>
+      <footer className={styles.footer}>&copy; 2023 komura-c</footer>
     </>
   );
 };
